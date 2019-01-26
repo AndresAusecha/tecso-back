@@ -1,4 +1,4 @@
-Herramientas necesarias:
+## Herramientas necesarias:
 
 	- GIT     ( Version homologada: 2.11.0 )
 	- Maven   ( Version homologada: 3.3.9 )
@@ -7,17 +7,12 @@ Herramientas necesarias:
 	- curl    ( Version homologada: 7.52.1 )
 
 
-Descargando el repositorio:
-
-	- git clone git@gitlab.tecso.coop:tecso-public/test-spring-boot-level-1.git
-
-
-Para ejecutar la aplicacion utilizando Maven:
+## Comando para ejecutar la aplicacion base utilizando Maven:
 
 	mvn spring-boot:run -Drun.jvmArguments="-Dspring.profiles.active=dev"
 	
 	
-Probando controllers:
+## Probando controllers:
 
 	Obteniendo version de build:
 	curl -X GET "http://localhost:8080/api/version/number"
@@ -33,22 +28,18 @@ Probando controllers:
 	curl -X GET "http://localhost:8080/api/country/findAll"
 	
 	
-Workflow:
-
-	- Descargar repositorio.
+## Workflow:
 	
-	- Validar funcionamiento del proyecto descargado ejecutando la aplicacion via Maven y utilizando los requests de prueba
-	mediante la utilizacion de "curl".
+	- Validar funcionamiento del proyecto básico provisto ejecutando la aplicacion via Maven y utilizando los requests de prueba (sección "Probando Controllers")
+	mediante la utilizacion de "curl". Puede utilizarse cualquier otra herramienta en lugar de ejecutar "curl" por consola.
 	
-	- Desde el Eclipse, importar el proyecto (importar como proyecto Maven existente).
+	- Desde Eclipse, importar el proyecto (importar como proyecto Maven existente).
 	
-	- Resolver los ejercios indicados.  Ver enuciados en ** "EJERCICIOS.md" **.
+	- Resolver los ejercios indicados. Ver enuciados en archivo "EJERCICIOS.md".
 	
-	- Agregar un archivo llamado "RESPUESTAS.md" que contenga todas las "curl requests" que permitan
-	probar las funcionalidades agregadas. 
+	- Agregar un archivo llamado "RESPUESTAS.md" que contenga todas las "curl requests" que permitan probar las funcionalidades creadas. 
 	
-	- Crear nuevo proyecto GIT (en gitlab o github), pushear en este nuevo espacio el
-	proyecto con todos los ejercicios resueltos y enviar la url del repositorio
-	para revision de las soluciones implementadas.  
+	- Crear nuevo proyecto git (en GitHub, BitBucket o similar). Pushear en este nuevo espacio el proyecto con todos los ejercicios resueltos y enviar la url del repositorio 
+	para revisión de las soluciones implementadas.  
 	
-	- Asegurarse que los permisos de acceso al repositorio sean adecuados para que quien reciba la url pueda realizar el clonado.
+	- Asegurarse de que los permisos de acceso al repositorio sean adecuados para que quien reciba la url pueda realizar el clonado.
