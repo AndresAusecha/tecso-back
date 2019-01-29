@@ -1,18 +1,24 @@
 package coop.tecso.examen.model;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class PersonaFisica extends AbstractPersona {
-    @NotEmpty @NotBlank
+    @NotEmpty
+    @NotBlank
     @Size(max = 80)
     private String nombre;
 
-    @NotEmpty @NotBlank
+    @NotEmpty
+    @NotBlank
     @Size(max = 250)
     private String apellido;
 
@@ -22,6 +28,10 @@ public class PersonaFisica extends AbstractPersona {
     public String getNombre() {
         return nombre;
     }
+
+    @OneToMany
+    @JoinColumn(name = "cuentas")
+    List<CuentaCorriente> cuentas = new ArrayList<>();
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
@@ -43,11 +53,12 @@ public class PersonaFisica extends AbstractPersona {
         this.dni = dni;
     }
 
-    public String getCuit() {
-        return cuit;
+    public List<CuentaCorriente> getCuentas() {
+        return cuentas;
     }
 
-    public void setCuit(String cuit) {
-        this.cuit = cuit;
+    public void setCuentas(CuentaCorriente cuenta) {
+        this.cuentas.add(cuenta);
     }
+
 }

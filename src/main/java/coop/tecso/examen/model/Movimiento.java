@@ -11,23 +11,37 @@ import java.util.UUID;
 
 @Entity
 public class Movimiento {
-    @Id @GeneratedValue
-    private UUID idMovimiento;
 
-    @NotNull
-    private LocalDateTime fecha;
+    @Id
+    @GeneratedValue
+    private UUID id;
+
+    @Column(nullable = false)
+    private LocalDateTime fecha = LocalDateTime.now();
 
     @NotNull
     private TipoMovimiento tipoMovimiento;
 
-    @NotEmpty @Size(max = 200)
+    @NotEmpty
+    @Size(max = 200)
     private String descripcion;
 
     @NotNull
-    private float importe;
+    private double importe;
 
-    @ManyToOne @NotEmpty
+    @ManyToOne
     private CuentaCorriente cuenta;
+
+    public Movimiento(){
+
+    }
+
+    public Movimiento(TipoMovimiento tipoMovimiento, String descripcion, double importe, CuentaCorriente cuenta) {
+        this.tipoMovimiento = tipoMovimiento;
+        this.descripcion = descripcion;
+        this.importe = importe;
+        this.cuenta = cuenta;
+    }
 
     public LocalDateTime getFecha() {
         return fecha;
@@ -41,7 +55,6 @@ public class Movimiento {
         return tipoMovimiento;
     }
 
-
     public void setTipoMovimiento(TipoMovimiento tipoMovimiento) {
         this.tipoMovimiento = tipoMovimiento;
     }
@@ -54,11 +67,11 @@ public class Movimiento {
         this.descripcion = descripcion;
     }
 
-    public float getImporte() {
+    public double getImporte() {
         return importe;
     }
 
-    public void setImporte(float importe) {
+    public void setImporte(double importe) {
         this.importe = importe;
     }
 
@@ -68,5 +81,9 @@ public class Movimiento {
 
     public void setCuenta(CuentaCorriente cuenta) {
         this.cuenta = cuenta;
+    }
+
+    public UUID getId() {
+        return id;
     }
 }

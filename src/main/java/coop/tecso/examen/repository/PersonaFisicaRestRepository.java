@@ -6,5 +6,6 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.UUID;
 
-@RepositoryRestResource(path = "/personasFisicas",collectionResourceRel = "personasFisicas")
-public interface PersonaFisicaRestRepository extends CrudRepository<PersonaFisica, UUID> { }
+@RepositoryRestResource(path = "/personasFisicas", collectionResourceRel = "personasFisicas")
+public interface PersonaFisicaRestRepository extends CrudRepository<PersonaFisica, UUID> {
+}

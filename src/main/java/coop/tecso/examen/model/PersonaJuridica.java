@@ -1,8 +1,12 @@
 package coop.tecso.examen.model;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class PersonaJuridica extends AbstractPersona {
@@ -14,6 +18,10 @@ public class PersonaJuridica extends AbstractPersona {
     @NotNull
     @Size(max = 4)
     private String anioFundacion;
+
+    @OneToMany
+    @JoinColumn(name = "cuentas")
+    List<CuentaCorriente> cuentas = new ArrayList<>();
 
     public String getRazonSocial() {
         return razonSocial;
@@ -31,11 +39,12 @@ public class PersonaJuridica extends AbstractPersona {
         this.anioFundacion = anioFundacion;
     }
 
-    public String getCuit() {
-        return cuit;
+    public List<CuentaCorriente> getCuentas() {
+        return cuentas;
     }
 
-    public void setCuit(String cuit) {
-        this.cuit = cuit;
+    public void setCuentas(CuentaCorriente cuenta) {
+        this.cuentas.add(cuenta);
     }
+
 }

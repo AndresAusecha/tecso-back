@@ -15,7 +15,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.PUT, "/movimientos","/movimientos/*","/movimientos/**").denyAll()
-                .antMatchers(HttpMethod.DELETE, "/movimientos","/movimientos/*","/movimientos/**").denyAll();
+                .antMatchers(HttpMethod.PUT, "/movimientos-rest-repo/*").denyAll()
+                .antMatchers(HttpMethod.DELETE, "/movimientos-rest-repo/*").denyAll()
+                .antMatchers(HttpMethod.POST, "/movimientos-rest-repo").denyAll()
+                .antMatchers(HttpMethod.POST, "/cuentas-rest-repo").denyAll();
     }
 }

@@ -4,18 +4,20 @@ import coop.tecso.examen.enums.Moneda;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
-public class CuentaCorriente{
-    @Id @GeneratedValue
+@Table(name = "cuenta_corriente")
+public class CuentaCorriente {
+
+
+    @Id
+    @GeneratedValue
     private UUID id;
 
-    @Column(unique = true) @GeneratedValue
-    @Size(min = 1000000000)
-    private Long numero;
+    @Column(unique = true, nullable = false, name = "numero")
+    private long numero;
 
     @NotNull
     private Moneda moneda;
@@ -23,8 +25,33 @@ public class CuentaCorriente{
     @NotNull
     private double saldo;
 
-    @OneToMany @JoinColumn(name = "movimientos")
-    private Set<Movimiento> movimientos;
+    @OneToMany
+    @JoinColumn(name = "movimientos")
+    private List<Movimiento> movimientos;
+
+    @ManyToOne
+    private PersonaFisica titularPersonaFisica;
+
+    @ManyToOne
+    private PersonaJuridica titularPersonaJuridica;
+
+    public CuentaCorriente() {
+
+    }
+
+    public CuentaCorriente(Moneda moneda, double saldo, PersonaJuridica personaJuridica, long numero) {
+        this.moneda = moneda;
+        this.saldo = saldo;
+        this.titularPersonaJuridica = personaJuridica;
+        this.numero = numero;
+    }
+
+    public CuentaCorriente(Moneda moneda, double saldo, PersonaFisica titularPersonaFisica, long numero) {
+        this.moneda = moneda;
+        this.saldo = saldo;
+        this.titularPersonaFisica = titularPersonaFisica;
+        this.numero = numero;
+    }
 
     public Long getNumero() {
         return numero;
@@ -50,11 +77,15 @@ public class CuentaCorriente{
         this.saldo = saldo;
     }
 
-    public Set<Movimiento> getMovimientos() {
+    public List<Movimiento> getMovimientos() {
         return movimientos;
     }
 
     public void setMovimientos(Movimiento movimiento) {
         this.movimientos.add(movimiento);
+    }
+
+    public UUID getId() {
+        return id;
     }
 }
