@@ -1,5 +1,7 @@
 package coop.tecso.examen.service.impl;
 
+import coop.tecso.examen.dto.MovimientoDto;
+import coop.tecso.examen.dto.MovimientosXCuentaDto;
 import coop.tecso.examen.enums.Moneda;
 import coop.tecso.examen.errors.CustomizedError;
 import coop.tecso.examen.model.CuentaCorriente;
@@ -13,6 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 @Service
 public class MovimientoServiceImpl implements MovimientoService {
@@ -51,5 +57,37 @@ public class MovimientoServiceImpl implements MovimientoService {
             return new ResponseEntity<>(new NuevoMovimientoResponseBody(mov.getId()), HttpStatus.CREATED);
         }
         return new ResponseEntity<>(new Error("Importe sobrepasa saldo"), HttpStatus.FORBIDDEN);
+    }
+
+    @Override
+    public ResponseEntity<?> listaMovimientosXCuenta() {
+        Iterator cuentas = cuentaRestRepository.findAll().iterator();
+        List<MovimientosXCuentaDto> movimientosXCuentaDtos = new ArrayList<>();
+        List<Movimiento> movimientos;
+        CuentaCorriente cuenta;
+
+        while(cuentas.hasNext()){
+            cuenta = (CuentaCorriente) cuentas.next();
+            movimientos = repo.findMovimientoByCuentaOrderByFechaDesc(cuenta);
+            MovimientosXCuentaDto movimientosXCuentaDto = new MovimientosXCuentaDto();
+            movimientosXCuentaDto.setCuentaId(cuenta.getId());
+            movimientosXCuentaDto.setCuentaNumero(cuenta.getNumero());
+            Iterator movimientosIterator = movimientos.iterator();
+            List<MovimientoDto> movimientoDtos = new ArrayList<>();
+            Movimiento movimiento;
+
+            while(movimientosIterator.hasNext()){
+                movimiento = (Movimiento) movimientosIterator.next();
+                movimientoDtos.add(new MovimientoDto(
+                        movimiento.getId(),
+                        movimiento.getFecha(),
+                        movimiento.getTipoMovimiento(),
+                        movimiento.getDescripcion(),
+                        movimiento.getImporte()));
+            }
+            movimientosXCuentaDto.setMovimientos(movimientoDtos);
+            movimientosXCuentaDtos.add(movimientosXCuentaDto);
+        }
+        return new ResponseEntity<>(movimientosXCuentaDtos, HttpStatus.OK);
     }
 }
