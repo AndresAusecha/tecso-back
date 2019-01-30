@@ -12,14 +12,6 @@ public class NuevaCuentaResponseBody implements Serializable {
         this.numero = numero;
     }
 
-    public void setNumero(long numero) {
-        this.numero = numero;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
     public UUID getId() {
         return id;
     }

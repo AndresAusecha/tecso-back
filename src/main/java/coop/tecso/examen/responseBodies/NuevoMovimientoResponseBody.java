@@ -9,10 +9,6 @@ public class NuevoMovimientoResponseBody {
         this.id = id;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
     public UUID getId() {
         return id;
     }

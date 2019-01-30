@@ -11,7 +11,6 @@ import java.util.UUID;
 @Table(name = "cuenta_corriente")
 public class CuentaCorriente {
 
-
     @Id
     @GeneratedValue
     private UUID id;

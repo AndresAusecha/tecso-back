@@ -1,7 +1,5 @@
 package coop.tecso.examen.service.impl;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import coop.tecso.examen.errors.CustomizedError;
 import coop.tecso.examen.model.CuentaCorriente;
 import coop.tecso.examen.model.PersonaFisica;
@@ -12,7 +10,6 @@ import coop.tecso.examen.repository.PersonaJuridicaRestRepository;
 import coop.tecso.examen.requestBodies.NuevaCuentaRequestBody;
 import coop.tecso.examen.responseBodies.NuevaCuentaResponseBody;
 import coop.tecso.examen.service.CuentaService;
-import org.hibernate.CustomEntityDirtinessStrategy;
 import org.springframework.aop.AopInvocationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
