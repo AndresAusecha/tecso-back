@@ -5,6 +5,7 @@ import coop.tecso.examen.model.CuentaCorriente;
 import coop.tecso.examen.model.PersonaFisica;
 import coop.tecso.examen.model.PersonaJuridica;
 import coop.tecso.examen.repository.CuentaRestRepository;
+import coop.tecso.examen.repository.MovimientoRestRepository;
 import coop.tecso.examen.repository.PersonaFisicaRestRepository;
 import coop.tecso.examen.repository.PersonaJuridicaRestRepository;
 import coop.tecso.examen.requestBodies.NuevaCuentaRequestBody;
@@ -16,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -30,6 +32,8 @@ public class CuentaServiceImpl implements CuentaService {
     @Autowired
     private PersonaJuridicaRestRepository personaJuridicaRestRepository;
 
+    @Autowired
+    MovimientoRestRepository movimientoRestRepository;
     @Override
     public ResponseEntity guardar(NuevaCuentaRequestBody body) {
         UUID idPersonaFisica = body.getTitularPersonaFisicaId();
@@ -55,10 +59,24 @@ public class CuentaServiceImpl implements CuentaService {
                     generarNumeroCuenta()
             ));
         } else {
-            return new ResponseEntity<>(new CustomizedError("Titular nulo"),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new CustomizedError("Titular nulo"), HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>(new NuevaCuentaResponseBody(cuenta.getId(), cuenta.getNumero()), HttpStatus.CREATED);
+    }
+
+    public ResponseEntity eliminar(UUID idCuenta) {
+        Optional<CuentaCorriente> resul = repo.findById(idCuenta);
+        if (!resul.isPresent())
+            return new ResponseEntity<>(new CustomizedError("Cuenta no encontrada"), HttpStatus.NOT_FOUND);
+        CuentaCorriente cuenta = resul.get();
+        if (!movimientoRestRepository.findMovimientoByCuenta(cuenta).isEmpty())
+            return new ResponseEntity<>(
+                    new CustomizedError("La Cuenta tiene movimientos asociados"),
+                    HttpStatus.FORBIDDEN
+            );
+        repo.delete(cuenta);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     private long generarNumeroCuenta() {

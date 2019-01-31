@@ -11,4 +11,5 @@ import java.util.UUID;
 @RepositoryRestResource(path = "/movimientos-rest-repo", collectionResourceRel = "movimientos-rest-repo")
 public interface MovimientoRestRepository extends CrudRepository<Movimiento, UUID> {
     List<Movimiento> findMovimientoByCuentaOrderByFechaDesc(CuentaCorriente cuenta);
+    List<Movimiento> findMovimientoByCuenta(CuentaCorriente cuenta);
 }

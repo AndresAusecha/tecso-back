@@ -1,7 +1,10 @@
 package coop.tecso.examen.controller;
+import coop.tecso.examen.enums.TipoMovimiento;
 import coop.tecso.examen.model.CuentaCorriente;
+import coop.tecso.examen.model.Movimiento;
 import coop.tecso.examen.model.PersonaFisica;
 import coop.tecso.examen.repository.CuentaRestRepository;
+import coop.tecso.examen.repository.MovimientoRestRepository;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -21,8 +24,11 @@ public class CuentasTestController extends PruebasDeIntegracion {
     @Autowired
     CuentaRestRepository repo;
 
-    String repoRestUrl = "/cuentas-rest-repo";
-    String controllerRestUrl = "/cuentas";
+    @Autowired
+    MovimientoRestRepository movimientoRestRepository;
+
+    private String repoRestUrl = "/cuentas-rest-repo";
+    private String controllerRestUrl = "/cuentas";
 
     @Test
     @Transactional
@@ -92,8 +98,22 @@ public class CuentasTestController extends PruebasDeIntegracion {
         try {
             mvc.perform(delete(repoRestUrl + "/" + cuentaCorriente.getId().toString())
                     .accept(MediaType.APPLICATION_JSON))
-                    .andExpect(status().isNoContent())
-                    .andReturn().getResponse().getContentAsString();
+                    .andExpect(status().isNoContent());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void eliminarFallaPorTenerMovimientosAsociados() {
+        CuentaCorriente cuenta = crearCuentaPOJO(crearPersonaPOJO());
+        movimientoRestRepository.save(new Movimiento(TipoMovimiento.DEBITO, "Movimiento de prueba",100.00,cuenta));
+        try {
+            mvc.perform(delete(controllerRestUrl + "/" + cuenta.getId().toString())
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isForbidden());
         } catch (Exception e) {
             e.printStackTrace();
         }

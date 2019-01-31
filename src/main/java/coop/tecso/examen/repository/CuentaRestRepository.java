@@ -12,4 +12,6 @@ public interface CuentaRestRepository extends CrudRepository<CuentaCorriente, UU
 
     @Query("SELECT MAX(C.numero) + 1 FROM CuentaCorriente C")
     int generarMaxNumero();
+
+
 }
