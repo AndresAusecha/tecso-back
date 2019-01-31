@@ -75,9 +75,9 @@ public class CuentasTestController extends PruebasDeIntegracion {
     public void actualizar(){
         CuentaCorriente cuentaCorriente = crearCuentaPOJO(crearPersonaPOJO());
         try {
-            String body = "{\"moneda\":\"EURO\", \"saldo\":\"4000.00\"}";
+            String body = "{\"moneda\":\"EURO\", \"saldo\":4000.00}";
             System.out.print(body);
-            String response = mvc.perform(put(repoRestUrl + "/" +  cuentaCorriente.getId().toString())
+            String response = mvc.perform(put(controllerRestUrl + "/" +  cuentaCorriente.getId().toString())
                     .accept(APPLICATION_JSON)
                     .contentType(APPLICATION_JSON)
                     .content(body))

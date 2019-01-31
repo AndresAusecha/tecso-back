@@ -20,6 +20,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, "/movimientos-rest-repo/*").denyAll()
                 .antMatchers(HttpMethod.POST, "/movimientos-rest-repo").denyAll()
                 .antMatchers(HttpMethod.POST, "/cuentas-rest-repo").denyAll()
-                .antMatchers(HttpMethod.DELETE, "/cuentas-rest-repo").denyAll();
+                .antMatchers(HttpMethod.DELETE, "/cuentas-rest-repo").denyAll()
+                .antMatchers(HttpMethod.PUT, "/cuentas-rest-repo").denyAll();
     }
 }

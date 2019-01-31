@@ -31,6 +31,14 @@ public class CuentaCorriente {
     @ManyToOne
     private PersonaFisica titularPersonaFisica;
 
+    public PersonaJuridica getTitularPersonaJuridica() {
+        return titularPersonaJuridica;
+    }
+
+    public void setTitularPersonaJuridica(PersonaJuridica titularPersonaJuridica) {
+        this.titularPersonaJuridica = titularPersonaJuridica;
+    }
+
     @ManyToOne
     private PersonaJuridica titularPersonaJuridica;
 

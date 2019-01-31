@@ -8,6 +8,8 @@ import coop.tecso.examen.repository.CuentaRestRepository;
 import coop.tecso.examen.repository.MovimientoRestRepository;
 import coop.tecso.examen.repository.PersonaFisicaRestRepository;
 import coop.tecso.examen.repository.PersonaJuridicaRestRepository;
+import coop.tecso.examen.requestBodies.ActualizarCuentaRequestBody;
+import coop.tecso.examen.responseBodies.ActualizarCuentaResponseBody;
 import coop.tecso.examen.requestBodies.NuevaCuentaRequestBody;
 import coop.tecso.examen.responseBodies.NuevaCuentaResponseBody;
 import coop.tecso.examen.service.CuentaService;
@@ -38,24 +40,34 @@ public class CuentaServiceImpl implements CuentaService {
     public ResponseEntity guardar(NuevaCuentaRequestBody body) {
         UUID idPersonaFisica = body.getTitularPersonaFisicaId();
         UUID idPersonaJuridica = body.getTitularPersonaJuridicaId();
-        PersonaFisica personaFisica;
-        PersonaJuridica personaJuridica;
         CuentaCorriente cuenta;
 
         if (idPersonaFisica != null) {
-            personaFisica = personaFisicaRestRepository.findById(idPersonaFisica).get();
+            Optional<PersonaFisica> res = personaFisicaRestRepository.findById(idPersonaFisica);
+            if(!res.isPresent()){
+              return new ResponseEntity<>(
+                    new CustomizedError("Persona no hallada"),
+                    HttpStatus.FORBIDDEN
+                );
+            }
             cuenta = repo.save(new CuentaCorriente(
                     body.getMoneda(),
                     body.getSaldo(),
-                    personaFisica,
+                    res.get(),
                     generarNumeroCuenta()
             ));
         } else if (idPersonaJuridica != null) {
-            personaJuridica = personaJuridicaRestRepository.findById(idPersonaJuridica).get();
+            Optional<PersonaJuridica> res = personaJuridicaRestRepository.findById(idPersonaJuridica);
+            if(!res.isPresent()){
+                return new ResponseEntity<>(
+                        new CustomizedError("Persona no hallada"),
+                        HttpStatus.FORBIDDEN
+                );
+            }
             cuenta = repo.save(new CuentaCorriente(
                     body.getMoneda(),
                     body.getSaldo(),
-                    personaJuridica,
+                    res.get(),
                     generarNumeroCuenta()
             ));
         } else {
@@ -77,6 +89,31 @@ public class CuentaServiceImpl implements CuentaService {
             );
         repo.delete(cuenta);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> actualizar(UUID uuid,ActualizarCuentaRequestBody body) {
+        Optional<CuentaCorriente> resul = repo.findById(uuid);
+        if(!resul.isPresent()){
+            return new ResponseEntity<>(
+                    new CustomizedError("Cuenta no encontrada"),
+                    HttpStatus.FORBIDDEN
+            );
+        }
+        CuentaCorriente cuenta = resul.get();
+        if(body.getSaldo() < 0){
+            return new ResponseEntity<>(
+                    new CustomizedError("Saldo incorrecto"),
+                    HttpStatus.FORBIDDEN
+            );
+        }
+        cuenta.setSaldo(body.getSaldo());
+        cuenta.setMoneda(body.getMoneda());
+        repo.save(cuenta);
+
+        return new ResponseEntity<>(new ActualizarCuentaResponseBody(
+                body.getMoneda(),body.getSaldo()),HttpStatus.OK
+        );
     }
 
     private long generarNumeroCuenta() {

@@ -1,5 +1,6 @@
 package coop.tecso.examen.controller;
 
+import coop.tecso.examen.requestBodies.ActualizarCuentaRequestBody;
 import coop.tecso.examen.requestBodies.NuevaCuentaRequestBody;
 import coop.tecso.examen.service.CuentaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,13 @@ public class CuentaController {
     @PostMapping(produces = "application/json")
     public ResponseEntity guardar(@RequestBody NuevaCuentaRequestBody body) {
         return service.guardar(body);
+    }
+
+    @PutMapping(produces = "application/json",path = "/{uuid}")
+    public ResponseEntity actualizar(
+            @PathVariable(value = "uuid") UUID uuid,
+            @RequestBody ActualizarCuentaRequestBody body) {
+        return service.actualizar(uuid,body);
     }
 
     @DeleteMapping(produces = "application/json",path = "/{uuid}")

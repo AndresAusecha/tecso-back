@@ -10,5 +10,5 @@ spring:
   datasource.username: postgres
   datasource.password: postgres
   jpa.hibernate.ddl-auto: create
-  jpa.properties.hibernate.default_schema: public
+  jpa.properties.hibernate.default_schema: tecso
   jpa.show-sql: true
