@@ -8,7 +8,7 @@ import java.util.UUID;
 public abstract class AbstractPersona {
     @Id
     @GeneratedValue
-    private UUID id;
+    protected UUID id;
 
     @Column(unique = true)
     @NotEmpty

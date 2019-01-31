@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 public class PersonaJuridica extends AbstractPersona {
@@ -46,5 +47,7 @@ public class PersonaJuridica extends AbstractPersona {
     public void setCuentas(CuentaCorriente cuenta) {
         this.cuentas.add(cuenta);
     }
-
+    public UUID getId() {
+        return id;
+    }
 }

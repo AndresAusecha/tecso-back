@@ -1,6 +1,5 @@
 package coop.tecso.examen.config;
 
-
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -22,10 +21,8 @@ class CORSFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) {
         HttpServletResponse response = (HttpServletResponse) resp;
         HttpServletRequest request = (HttpServletRequest) req;
-        System.out.println("Este filtro se ejecuta");
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Origin", "*");
-        //response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
         response.setHeader("Access-Control-Allow-Credentials", "true");
         response.setHeader("Access-Control-Allow-Methods", "PATCH,POST,GET,OPTIONS,DELETE,PUT");
         response.setHeader("Access-Control-Max-Age", "3600");
